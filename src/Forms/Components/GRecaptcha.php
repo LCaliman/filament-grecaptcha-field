@@ -18,14 +18,16 @@ class GRecaptcha extends Field
         $this->label('');
     }
 
-    public function callBeforeStateDehydrated(): static
+    public function callBeforeStateDehydrated(&$state = []): static
     {
-        parent::callBeforeStateDehydrated();
+        parent::callBeforeStateDehydrated($state);
 
         if (method_exists($this->getLivewire(), 'dispatchFormEvent')) {
             $this->getLivewire()->dispatchFormEvent('resetCaptcha');
-        } else {
+        } else if (method_exists($this->getLivewire(), 'emit')) {
             $this->getLivewire()->emit('resetCaptcha');
+        } else {
+            $this->getLivewire()->dispatch('resetCaptcha');
         }
 
         return $this;
