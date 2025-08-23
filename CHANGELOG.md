@@ -2,6 +2,14 @@
 
 All notable changes to `filament-grecaptcha-field` will be documented in this file.
 
+## v0.0.11 - 2025-08-23
+
+### v0.0.11 - 2025-08-23
+
+#### What's Changed
+
+* add support for Filament v4
+
 ## v0.0.10 - 2025-03-21
 
 ### What's Changed
