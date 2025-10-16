@@ -22,12 +22,16 @@ class GRecaptcha extends Field
     {
         parent::callBeforeStateDehydrated($state);
 
-        if (method_exists($this->getLivewire(), 'dispatchFormEvent')) {
-            $this->getLivewire()->dispatchFormEvent('resetCaptcha');
-        } else if (method_exists($this->getLivewire(), 'emit')) {
-            $this->getLivewire()->emit('resetCaptcha');
-        } else {
-            $this->getLivewire()->dispatch('resetCaptcha');
+        // Only reset reCAPTCHA if the state is being cleared (empty/null)
+        // This prevents resetting when the token is being set
+        if (empty($state)) {
+            if (method_exists($this->getLivewire(), 'dispatchFormEvent')) {
+                $this->getLivewire()->dispatchFormEvent('resetCaptcha');
+            } else if (method_exists($this->getLivewire(), 'emit')) {
+                $this->getLivewire()->emit('resetCaptcha');
+            } else {
+                $this->getLivewire()->dispatch('resetCaptcha');
+            }
         }
 
         return $this;
